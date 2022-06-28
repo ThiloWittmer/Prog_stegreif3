@@ -3,3 +3,10 @@
 /Nahrungstyp.class
 /Fische.class
 /Muell.class
+/Haie.class
+/Seetang.class
+/Taucher.class
+/FressException.class
+/NichtEssbarException.class
+/FalscheNahrugstypException.class
+/Typisiert.class

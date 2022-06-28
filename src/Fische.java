@@ -1,12 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fische implements Leckerbissen {
+public class Fische implements Typisiert<Esstyp>, Leckerbissen {
 	
 	String name;
 	int gewicht;
 	int hunger;
-	
 	
 
 	public void fresse(Leckerbissen beute) {
@@ -37,6 +36,12 @@ public class Fische implements Leckerbissen {
 
 	@Override
 	public Nahrungstyp getNahrungstyp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Esstyp getTyp() {
 		// TODO Auto-generated method stub
 		return null;
 	}
