@@ -1,15 +1,32 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fische implements Typisiert<Esstyp>, Leckerbissen {
+public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 	
-	String name;
-	int gewicht;
-	int hunger;
+	private String name;
+	private int gewicht;
+	private int hunger;
+	private Esstyp typ;
 	
+	
+	public Fisch(String name, int gewicht, int hunger, Esstyp typ) {
+		this.name = name;
+		this.gewicht = gewicht;
+		this.hunger = hunger;
+		this.typ = typ;
+	}
 
-	public void fresse(Leckerbissen beute) {
+	public void fressen(Leckerbissen beute) {
+		if(beute.getGramm() > (hunger - gewicht)) {
+			//Exception: satt
+		}
 		
+		//beute wird gefressen
+		if(typ.akzeptiert(beute.getNahrungstyp())) {
+			
+		} else {
+			//Exception: Nicht genug Hunger
+		}
 	}
 
 

@@ -17,6 +17,4 @@ public enum Esstyp {
 		}
 		return false;
 	}
-	
-	
 }
