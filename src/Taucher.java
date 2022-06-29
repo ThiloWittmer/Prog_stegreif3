@@ -1,4 +1,4 @@
 
-public class Taucher {
+public class Taucher implements Leckerbissen{
 
 }
