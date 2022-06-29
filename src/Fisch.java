@@ -1,31 +1,33 @@
-import java.util.ArrayList;
-import java.util.List;
 
 public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 	
 	private String name;
 	private int gewicht;
 	private int hunger;
-	private Esstyp typ;
+	private Esstyp esstyp;
+	private Nahrungstyp nahrungstyp;
+	private boolean istLebendig;
 	
 	
 	public Fisch(String name, int gewicht, int hunger, Esstyp typ) {
 		this.name = name;
 		this.gewicht = gewicht;
 		this.hunger = hunger;
-		this.typ = typ;
+		this.esstyp = typ;
 	}
 
-	public void fressen(Leckerbissen beute) {
+	public void fressen(Leckerbissen beute) throws FalscherNahrungstypException, KeinenHungerException {
 		if(beute.getGramm() > (hunger - gewicht)) {
 			//Exception: satt
+			throw new KeinenHungerException(name + " hat nicht genug Hunger für " + beute);
 		}
 		
 		//beute wird gefressen
-		if(typ.akzeptiert(beute.getNahrungstyp())) {
+		if(esstyp.akzeptiert(beute.getNahrungstyp())) {
 			
 		} else {
-			//Exception: Nicht genug Hunger
+			//Exception: falscher Nahrungstyp
+			throw new FalscherNahrungstypException(name + " akzeptiert kein: " + beute.getNahrungstyp());
 		}
 	}
 
@@ -33,13 +35,16 @@ public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 	@Override
 	public int getGramm() {
 		// TODO Auto-generated method stub
-		return 0;
+		return gewicht;
 	}
 
 
 	@Override
 	public boolean gefressen() {
-		// TODO Auto-generated method stub
+		if(istLebendig) {
+			istLebendig = false;
+			return true;
+		}
 		return false;
 	}
 
@@ -47,20 +52,20 @@ public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 	@Override
 	public boolean istLebendig() {
 		// TODO Auto-generated method stub
-		return false;
+		return istLebendig;
 	}
 
 
 	@Override
 	public Nahrungstyp getNahrungstyp() {
 		// TODO Auto-generated method stub
-		return null;
+		return nahrungstyp;
 	}
 
 	@Override
 	public Esstyp getTyp() {
 		// TODO Auto-generated method stub
-		return null;
+		return esstyp;
 	}
 	
 	

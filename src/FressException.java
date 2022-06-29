@@ -1,4 +1,5 @@
 
+@SuppressWarnings("serial")
 public abstract class FressException extends Exception {
 	
 	public FressException() {
