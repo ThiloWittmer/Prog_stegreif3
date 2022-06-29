@@ -1,7 +1,10 @@
 
 public enum Esstyp {
-	VEGANER(Nahrungstyp.PFLANZE), VEGETARIER(Nahrungstyp.PFLANZE), FLEXITARIER(Nahrungstyp.PFLANZE, Nahrungstyp.FISCH, Nahrungstyp.FLEISCH),
-		FISCHESSER(Nahrungstyp.FISCH), FLEISCHESSER(Nahrungstyp.FLEISCH);
+	VEGANER(Nahrungstyp.PFLANZE),
+	 VEGETARIER(Nahrungstyp.PFLANZE), 
+	 FLEXITARIER(Nahrungstyp.PFLANZE, Nahrungstyp.FISCH, Nahrungstyp.FLEISCH),
+		FISCHESSER(Nahrungstyp.FISCH), 
+		  FLEISCHESSER(Nahrungstyp.FLEISCH);
 	
 	private Nahrungstyp[] akzTypen;
 	
