@@ -1,13 +1,11 @@
 
 public class Seetang implements Leckerbissen{
 	
-	private int menge;
 	private int nahrungsmenge;
 	private Nahrungstyp nahrungstyp;
 	private boolean istLebendig;
 	
-	public Seetang(int menge, int nahrungsmenge) {
-		this.menge = menge;
+	public Seetang(int nahrungsmenge) {
 		this.nahrungsmenge = nahrungsmenge;
 		istLebendig = true;
 		nahrungstyp = Nahrungstyp.PFLANZE;
@@ -16,13 +14,11 @@ public class Seetang implements Leckerbissen{
 
 	@Override
 	public int getGramm() {
-		// TODO Auto-generated method stub
 		return nahrungsmenge;
 	}
 
 	@Override
 	public boolean gefressen() {
-		// TODO Auto-generated method stub 
 		if(istLebendig()) {
 			istLebendig = false;
 			return true;
@@ -32,16 +28,11 @@ public class Seetang implements Leckerbissen{
 
 	@Override
 	public boolean istLebendig() {
-		// TODO Auto-generated method stub
 		return istLebendig;
 	}
 
 	@Override
 	public Nahrungstyp getNahrungstyp() {
-		// TODO Auto-generated method stub
 		return nahrungstyp;
 	}
-	
-	
-
 }
