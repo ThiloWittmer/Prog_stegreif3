@@ -34,7 +34,6 @@ public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 
 	@Override
 	public int getGramm() {
-		// TODO Auto-generated method stub
 		return gewicht;
 	}
 
@@ -51,20 +50,17 @@ public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 
 	@Override
 	public boolean istLebendig() {
-		// TODO Auto-generated method stub
 		return istLebendig;
 	}
 
 
 	@Override
 	public Nahrungstyp getNahrungstyp() {
-		// TODO Auto-generated method stub
 		return nahrungstyp;
 	}
 
 	@Override
 	public Esstyp getTyp() {
-		// TODO Auto-generated method stub
 		return esstyp;
 	}
 	
