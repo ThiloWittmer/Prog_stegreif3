@@ -1,11 +1,13 @@
 
 public class Seetang implements Leckerbissen{
 	
+	private int menge;
 	private int nahrungsmenge;
 	private Nahrungstyp nahrungstyp;
 	private boolean istLebendig;
 	
-	public Seetang(int nahrungsmenge) {
+	public Seetang(int menge, int nahrungsmenge) {
+		this.menge = menge;
 		this.nahrungsmenge = nahrungsmenge;
 		istLebendig = true;
 		nahrungstyp = Nahrungstyp.PFLANZE;

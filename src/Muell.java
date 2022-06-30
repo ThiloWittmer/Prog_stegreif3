@@ -2,6 +2,12 @@
 public class Muell implements Leckerbissen{
 	
 	private Nahrungstyp nahrungstyp;
+	private int menge;
+	
+	public Muell(int menge) {
+		nahrungstyp = Nahrungstyp.NICHT_ESSBAR;
+		this.menge = menge;
+	}
 
 	@Override
 	public int getGramm() {
@@ -24,7 +30,7 @@ public class Muell implements Leckerbissen{
 	@Override
 	public Nahrungstyp getNahrungstyp() {
 		// TODO Auto-generated method stub
-		return null;
+		return nahrungstyp;
 	}
 
 }
