@@ -2,6 +2,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * 
+ * @author Thilo Wittmer, Aaron Stier, Muhanad Khatib
+ */
+
 import de.hsrm.mi.prog2.TextIO;
 
 public class Control {
@@ -16,14 +21,18 @@ public class Control {
 		List<Leckerbissen> leckerbissenListe = new ArrayList<Leckerbissen>();
 		int count[] = {0, 0};
 
-		//Einlesen Textdatei: Akteure
+		/***
+		 * Einlesen Textdatei: Akteure
+		 */
 		try {
 			akteurListe = TextIO.read(new File("akteure.txt"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		//Erzeugen der Objekte
+		/***
+		 * Erzeugen der Objekte
+		 */
 		for (String akteur : akteurListe) {
 			//zerlegen
 			akteurDaten = akteur.split(",");
@@ -37,14 +46,18 @@ public class Control {
 			}
 		}
 
-		//Einlesen Textdatei Ablauf
+		/***
+		 * Einlesen Textdatei Ablauf
+		 */
 		try {
 			ablaufListe = TextIO.read(new File("szene.txt"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		//Durchführung der Abläufe
+		/***
+		 * Durchführung der Abläufe
+		 */
 		for (String anweisung : ablaufListe) {
 			Fisch fisch = null;
 			anweisungen = anweisung.split(" ");
@@ -93,6 +106,14 @@ public class Control {
 		
 	}
 
+	/***
+	 * Suche des jeweiligen Leckerbissens
+	 * 
+	 * @param leckerbissenListe
+	 * @param fisch
+	 * @param klasse
+	 * @param count
+	 */
 	private static void searchnEatLeckerbissen(List<Leckerbissen> leckerbissenListe, Fisch fisch, Class<?> klasse, int[] count) {
 		boolean gefressen = false;
 		for (Leckerbissen aktLeckerbissen : leckerbissenListe) {
@@ -113,7 +134,13 @@ public class Control {
 			if (gefressen) break;
 		}
 	}
-
+	
+	/***
+	 * Erzeugen des Objekts des jeweilgen Leckerbissens
+	 * 
+	 * @param akteurDaten
+	 * @param leckerbissenListe
+	 */
 	private static void erzeugeLeckerbissen(String[] akteurDaten, List<Leckerbissen> leckerbissenListe) {
 		int menge = Integer.parseInt(akteurDaten[2]);
 		int gewicht = Integer.parseInt(akteurDaten[3]);
@@ -135,6 +162,12 @@ public class Control {
 		}
 	}
 
+	/***
+	 * Erzeugen des Objekttypes Fisch
+	 * 
+	 * @param akteurDaten
+	 * @param fischListe
+	 */
 	private static void erzeugeFisch(String[] akteurDaten, List<Fisch> fischListe) {
 		Nahrungstyp nahrungstyp = null;
 		switch (akteurDaten[2]) {

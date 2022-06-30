@@ -8,7 +8,7 @@ public class Fisch implements Leckerbissen {
 	private Nahrungstyp nahrungstyp;
 	private boolean istLebendig;
 	
-	
+	//Objekt Fisch
 	public Fisch(String name, Nahrungstyp nahrungstyp, Esstyp typ, int gewicht, int hunger) {
 		this.name = name;
 		this.gewicht = gewicht;
@@ -18,6 +18,13 @@ public class Fisch implements Leckerbissen {
 		this.istLebendig = true;
 	}
 
+	/***
+	 * Methode wenn Fisch frisst
+	 * 
+	 * @param beute
+	 * @throws FalscherNahrungstypException
+	 * @throws KeinenHungerException
+	 */
 	public void fressen(Leckerbissen beute) throws FalscherNahrungstypException, KeinenHungerException {
 		if(beute.getGramm() > (hunger - gewicht)) {
 			//Exception: satt

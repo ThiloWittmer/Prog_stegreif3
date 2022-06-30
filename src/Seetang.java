@@ -1,10 +1,16 @@
 
 public class Seetang implements Leckerbissen{
 	
+	
 	private int gewicht;
 	private Nahrungstyp nahrungstyp;
 	private boolean istLebendig;
 	
+	/***
+	 * Erzeugen Objekt von Typ Seetang
+	 * 
+	 * @param gewicht
+	 */
 	public Seetang(int gewicht) {
 		this.gewicht = gewicht;
 		istLebendig = true;
@@ -16,6 +22,7 @@ public class Seetang implements Leckerbissen{
 	public int getGramm() {
 		return gewicht;
 	}
+	
 
 	@Override
 	public boolean gefressen() {
@@ -30,6 +37,7 @@ public class Seetang implements Leckerbissen{
 	public boolean istLebendig() {
 		return istLebendig;
 	}
+
 
 	@Override
 	public Nahrungstyp getNahrungstyp() {

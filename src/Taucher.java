@@ -40,6 +40,7 @@ public class Taucher implements Leckerbissen {
         return TYP;
     }
 
+ 
     @Override
 	public String toString() {
 		return "Taucher";
