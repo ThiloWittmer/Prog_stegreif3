@@ -1,12 +1,12 @@
 
 public class Seetang implements Leckerbissen{
 	
-	private int nahrungsmenge;
+	private int gewicht;
 	private Nahrungstyp nahrungstyp;
 	private boolean istLebendig;
 	
-	public Seetang(int nahrungsmenge) {
-		this.nahrungsmenge = nahrungsmenge;
+	public Seetang(int gewicht) {
+		this.gewicht = gewicht;
 		istLebendig = true;
 		nahrungstyp = Nahrungstyp.PFLANZE;
 	}
@@ -14,7 +14,7 @@ public class Seetang implements Leckerbissen{
 
 	@Override
 	public int getGramm() {
-		return nahrungsmenge;
+		return gewicht;
 	}
 
 	@Override

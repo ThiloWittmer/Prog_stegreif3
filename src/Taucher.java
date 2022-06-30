@@ -8,7 +8,7 @@ public class Taucher implements Leckerbissen {
     private final Nahrungstyp TYP = Nahrungstyp.FLEISCH; 
     private int gewicht;
 
-    public Taucher(boolean lebendig, int gewicht){
+    public Taucher(int gewicht){
         this.lebendig=true;
         this.gewicht= gewicht;
     }

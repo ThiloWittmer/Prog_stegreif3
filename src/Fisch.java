@@ -9,11 +9,13 @@ public class Fisch implements Leckerbissen {
 	private boolean istLebendig;
 	
 	
-	public Fisch(String name, int gewicht, int hunger, Esstyp typ) {
+	public Fisch(String name, Nahrungstyp nahrungstyp, Esstyp typ, int gewicht, int hunger) {
 		this.name = name;
 		this.gewicht = gewicht;
 		this.hunger = hunger;
 		this.esstyp = typ;
+		this.nahrungstyp = nahrungstyp;
+		this.istLebendig = true;
 	}
 
 	public void fressen(Leckerbissen beute) throws FalscherNahrungstypException, KeinenHungerException {

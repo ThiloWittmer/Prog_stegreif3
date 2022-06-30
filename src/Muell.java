@@ -3,7 +3,7 @@ public class Muell implements Leckerbissen{
 	
 	private Nahrungstyp nahrungstyp;
 	
-	public Muell(int menge) {
+	public Muell() {
 		nahrungstyp = Nahrungstyp.NICHT_ESSBAR;
 	}
 
