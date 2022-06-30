@@ -8,4 +8,5 @@ public interface Leckerbissen {
 	public boolean gefressen();
 	public boolean istLebendig();
 	public Nahrungstyp getNahrungstyp();
+	public String toString();
 }

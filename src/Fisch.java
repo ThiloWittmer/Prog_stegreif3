@@ -21,16 +21,21 @@ public class Fisch implements Leckerbissen {
 	public void fressen(Leckerbissen beute) throws FalscherNahrungstypException, KeinenHungerException {
 		if(beute.getGramm() > (hunger - gewicht)) {
 			//Exception: satt
-			throw new KeinenHungerException(name + " hat nicht genug Hunger für " + beute);
+			throw new KeinenHungerException(name + " hat nicht genug Hunger für " + beute.toString());
 		}
 		
 		//beute wird gefressen
 		if(esstyp.akzeptiert(beute.getNahrungstyp())) {
-			
+			gewicht += beute.getGramm();
+			System.out.println(name + " hat " + beute.toString() + " gefressen.");
 		} else {
 			//Exception: falscher Nahrungstyp
-			throw new FalscherNahrungstypException(name + " akzeptiert kein: " + beute.getNahrungstyp());
+			throw new FalscherNahrungstypException(name + " hat nicht den richtigen Nahrungstyp für " + beute.toString());
 		}
+	}
+
+	public String getName() {
+		return name;
 	}
 
 
@@ -61,4 +66,8 @@ public class Fisch implements Leckerbissen {
 		return nahrungstyp;
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 }

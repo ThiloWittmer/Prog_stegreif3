@@ -9,9 +9,12 @@ public class Control {
 	public static void main(String[] args) {
 
 		List<String> akteurListe = null;
+		List<String> ablaufListe = null;
 		String[] akteurDaten = null;
+		String[] anweisungen = null;
 		List<Fisch> fischListe = new ArrayList<Fisch>();
 		List<Leckerbissen> leckerbissenListe = new ArrayList<Leckerbissen>();
+		int count[] = {0, 0};
 
 		//Einlesen Textdatei: Akteure
 		try {
@@ -35,9 +38,80 @@ public class Control {
 		}
 
 		//Einlesen Textdatei Ablauf
+		try {
+			ablaufListe = TextIO.read(new File("szene.txt"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		//Durchführung der Abläufe
+		for (String anweisung : ablaufListe) {
+			Fisch fisch = null;
+			anweisungen = anweisung.split(" ");
+			for (Fisch aktFisch : fischListe) {
+				if (aktFisch.getName().equals(anweisungen[0])) {
+					fisch = aktFisch;
+					break;
+				}
+			}
 
+			switch (anweisungen[2]) {
+				case "Seetang":
+					searchnEatLeckerbissen(leckerbissenListe, fisch, Seetang.class, count);
+					break;
+				case "Muell":
+					searchnEatLeckerbissen(leckerbissenListe, fisch, Muell.class, count);
+					break;
+				case "Taucher":
+					searchnEatLeckerbissen(leckerbissenListe, fisch, Taucher.class, count);
+					break;
+				default:
+					boolean gefressen = false;
+					for (Fisch aktFisch : fischListe) {
+						if (aktFisch.getName().equals(anweisungen[2])) {
+							try {
+								fisch.fressen(aktFisch);
+								fischListe.remove(aktFisch);
+								count[0]++;
+							} catch (FalscherNahrungstypException e) {
+								e.printStackTrace();
+								count[1]++;
+							} catch (KeinenHungerException e) {
+								e.printStackTrace();
+								count[1]++;
+							}
+							gefressen = true;
+						}
+						if(gefressen) break;
+					}
+					break;
+			}
+		}
+
+		System.out.println("Es wurde " + count[0] + " mal erfolgreich etwas gefressen.");
+		System.out.println("Es wurde " + count[1] + " mal nicht erfolgreich etwas gefressen.");
+		
+	}
+
+	private static void searchnEatLeckerbissen(List<Leckerbissen> leckerbissenListe, Fisch fisch, Class<?> klasse, int[] count) {
+		boolean gefressen = false;
+		for (Leckerbissen aktLeckerbissen : leckerbissenListe) {
+			if (aktLeckerbissen.getClass() == klasse) {
+				try {
+					fisch.fressen(aktLeckerbissen);
+					leckerbissenListe.remove(aktLeckerbissen);
+					count[0]++;
+				} catch (FalscherNahrungstypException e) {
+					e.printStackTrace();
+					count[1]++;
+				} catch (KeinenHungerException e) {
+					e.printStackTrace();
+					count[1]++;
+				}
+				gefressen = true;
+			}
+			if (gefressen) break;
+		}
 	}
 
 	private static void erzeugeLeckerbissen(String[] akteurDaten, List<Leckerbissen> leckerbissenListe) {

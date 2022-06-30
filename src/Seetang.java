@@ -35,4 +35,9 @@ public class Seetang implements Leckerbissen{
 	public Nahrungstyp getNahrungstyp() {
 		return nahrungstyp;
 	}
+
+	@Override
+	public String toString() {
+		return "Seetang";
+	}
 }

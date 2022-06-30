@@ -27,4 +27,8 @@ public class Muell implements Leckerbissen{
 		return nahrungstyp;
 	}
 
+	@Override
+	public String toString() {
+		return "Muell";
+	}
 }
