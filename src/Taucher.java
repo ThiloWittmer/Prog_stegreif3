@@ -1,4 +1,8 @@
-
+/*
+ * Taucher-Klasse
+ * 
+ *@class Taucher beschreibt die Eigenschaften der Taucher 
+ */
 public class Taucher implements Leckerbissen {
     private boolean lebendig;
     private final Nahrungstyp TYP = Nahrungstyp.FLEISCH; 

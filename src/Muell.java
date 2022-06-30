@@ -1,4 +1,8 @@
-
+/*
+ * Muell-Klasse
+ * 
+ *@class Muell beschreibt die Eigenschaften des Muells
+ */
 public class Muell implements Leckerbissen {
     private boolean lebendig;
     private final Nahrungstyp TYP= Nahrungstyp.NICHT_ESSBAR;
