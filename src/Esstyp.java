@@ -1,4 +1,9 @@
-
+/*
+ * Esstyp-Klasse
+ * 
+ * @class Esstyp definiert die Eigenschaften der Fresser
+ * und weist zu jedem Fresser seine eigene Nahrungstyp zu
+ */
 public enum Esstyp {
 	VEGANER(Nahrungstyp.PFLANZE),
 	 VEGETARIER(Nahrungstyp.PFLANZE), 

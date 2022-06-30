@@ -1,4 +1,8 @@
-
+/*
+ * Leckerbissen-Klasse
+ * 
+ * in dieser Klasse wird Leckerbissen-Metoden abgelegt
+ */
 public interface Leckerbissen {
 	public int getGramm();
 	public boolean gefressen();
