@@ -13,3 +13,6 @@
 /Fisch.class
 /FalscherNahrungstypException.class
 /KeinenHungerException.class
+/bereitsGefressenException.class
+/BereitsGefressen.class
+/BereitsGefressenException.class
