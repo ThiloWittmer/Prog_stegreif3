@@ -1,5 +1,5 @@
 
-public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
+public class Fisch implements Leckerbissen {
 	
 	private String name;
 	private int gewicht;
@@ -59,10 +59,4 @@ public class Fisch implements Typisiert<Esstyp>, Leckerbissen {
 		return nahrungstyp;
 	}
 
-	@Override
-	public Esstyp getTyp() {
-		return esstyp;
-	}
-	
-	
 }
