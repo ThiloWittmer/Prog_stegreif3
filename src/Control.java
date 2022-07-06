@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,98 +17,117 @@ public class Control {
 
 	public static void main(String[] args) throws LeckerbissenSchonTotException, ExistiertNichtException {
 
-		List<String> akteurListe = null;
-		List<String> ablaufListe = null;
+		List<String> akteurListe = new ArrayList<String>();
+		List<String> ablaufListe = new ArrayList<String>();
 		String[] akteurDaten = null;
 		String[] anweisungen = null;
 		List<Fisch> fischListe = new ArrayList<Fisch>();
 		List<Leckerbissen> leckerbissenListe = new ArrayList<Leckerbissen>();
 		int count[] = {0, 0};
+		BufferedReader br = null;
+		String line = null;
 
 		/***
 		 * Einlesen Textdatei: Akteure
 		 */
 		try {
-			akteurListe = TextIO.read(new File("akteure.txt"));
+			try {
+				br = new BufferedReader(new FileReader("akteure.txt"));
+				while((line = br.readLine()) != null) {
+					akteurListe.add(line);
+				}
+			} catch(FileNotFoundException e) {
+				System.err.println(e.getMessage());
+				return;
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
+			}
+			
+			for (String akteur : akteurListe) {
+				//zerlegen
+				akteurDaten = akteur.split(",");
+				switch (akteurDaten[0]) {
+				case "Fisch":
+					erzeugeFisch(akteurDaten, fischListe);
+					break;
+					
+				default:
+					erzeugeLeckerbissen(akteurDaten, leckerbissenListe);
+				}
+			}
+			try {
+				br = new BufferedReader(new FileReader("szene.txt"));
+				while((line = br.readLine()) != null) {
+					ablaufListe.add(line);
+				}
+			} catch(FileNotFoundException e) {
+				System.err.println(e.getMessage());
+				return;
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
+			} finally {
+				br.close();
+			}
+			for (String anweisung : ablaufListe) {
+				Fisch fisch = null;
+				Class<?> aktKlasse;
+				Leckerbissen leckerbissen;
+				anweisungen = anweisung.split(" ");
+				for (Fisch aktFisch : fischListe) {
+					if (aktFisch.getName().equals(anweisungen[0])) {
+						fisch = aktFisch;
+						break;
+					}
+				}
+				
+				try {
+					if (fisch == null) {
+						throw new ExistiertNichtException(anweisungen[0] + " wurde schon gefressen oder existiert nicht.");
+					}
+					aktKlasse = select(anweisungen[2]);
+					leckerbissen = search(fischListe, leckerbissenListe, aktKlasse, anweisungen[2]);
+						
+					fisch.fressen(leckerbissen);
+					if (leckerbissen.getClass() == Fisch.class) {
+						fischListe.remove(leckerbissen);
+					} else {
+						leckerbissenListe.remove(leckerbissen);
+					}
+					count[0]++;
+				} catch (FalscherNahrungstypException e) {
+					e.printStackTrace();
+					count[1]++;
+				} catch (KeinenHungerException e) {
+					e.printStackTrace();
+					count[1]++;
+				} catch (SelbstGefressenException e) {
+					e.printStackTrace();
+					count[1]++;
+					
+				} catch(ExistiertNichtException e) {
+					e.printStackTrace();
+					
+				}
+				
+				
+				
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
+			return;
 		}
 
 		/***
 		 * Erzeugen der Objekte
 		 */
-		for (String akteur : akteurListe) {
-			//zerlegen
-			akteurDaten = akteur.split(",");
-			switch (akteurDaten[0]) {
-				case "Fisch":
-					erzeugeFisch(akteurDaten, fischListe);
-					break;
-
-				default:
-					erzeugeLeckerbissen(akteurDaten, leckerbissenListe);
-			}
-		}
 
 		/***
 		 * Einlesen Textdatei Ablauf
 		 */
-		try {
-			ablaufListe = TextIO.read(new File("szene.txt"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		/***
 		 * Durchführung der Abläufe
 		 */
-		for (String anweisung : ablaufListe) {
-			Fisch fisch = null;
-			Class<?> aktKlasse;
-			Leckerbissen leckerbissen;
-			anweisungen = anweisung.split(" ");
-			for (Fisch aktFisch : fischListe) {
-				if (aktFisch.getName().equals(anweisungen[0])) {
-					fisch = aktFisch;
-					break;
-				}
-			}
-			
-			try {
-				if (fisch == null) {
-					throw new ExistiertNichtException(anweisungen[0] + " wurde schon gefressen oder existiert nicht.");
-				}
-				aktKlasse = select(anweisungen[2]);
-				try {
-					leckerbissen = search(fischListe, leckerbissenListe, aktKlasse, anweisungen[2]);
-					try {
-						fisch.fressen(leckerbissen);
-						if (leckerbissen.getClass() == Fisch.class) {
-							fischListe.remove(leckerbissen);
-						} else {
-							leckerbissenListe.remove(leckerbissen);
-						}
-						count[0]++;
-					} catch (FalscherNahrungstypException e) {
-						e.printStackTrace();
-						count[1]++;
-					} catch (KeinenHungerException e) {
-						e.printStackTrace();
-						count[1]++;
-					} catch (SelbstGefressenException e) {
-						e.printStackTrace();
-						count[1]++;
-					}
-				} catch(ExistiertNichtException e) {
-					e.printStackTrace();
-				}
-			} catch(ExistiertNichtException e) {
-				e.printStackTrace();
-			}
-
-			
-						
-		}
 
 		System.out.println("Es wurde " + count[0] + " mal erfolgreich etwas gefressen.");
 		System.out.println("Es wurde " + count[1] + " mal nicht erfolgreich etwas gefressen.");
@@ -170,28 +192,32 @@ public class Control {
 	private static void erzeugeLeckerbissen(String[] akteurDaten, List<Leckerbissen> leckerbissenListe) {
 		String name = null;
 		int menge;
-		int gewicht = Integer.parseInt(akteurDaten[2]);
-		switch(akteurDaten[0]) {
-			case "Seetang", "Muell":
-				menge = Integer.parseInt(akteurDaten[1]);
-			break;
-			default:
-				menge = 0;
-				name = akteurDaten[1];
-		}
-		switch (akteurDaten[0]) {
-			case "Seetang":
-				for (int i = 0; i < menge; i++) {
-					leckerbissenListe.add(new Seetang(gewicht));
-				}
+		try {
+			int gewicht = Integer.parseInt(akteurDaten[2]);
+			switch(akteurDaten[0]) {
+				case "Seetang", "Muell":
+					menge = Integer.parseInt(akteurDaten[1]);
 				break;
-			case "Taucher":
-				leckerbissenListe.add(new Taucher(name, gewicht));
-				break;
-			case "Muell":
-				for (int i = 0; i < menge; i++) {
-					leckerbissenListe.add(new Muell());
-				}
+				default:
+					menge = 0;
+					name = akteurDaten[1];
+			}
+			switch (akteurDaten[0]) {
+				case "Seetang":
+					for (int i = 0; i < menge; i++) {
+						leckerbissenListe.add(new Seetang(gewicht));
+					}
+					break;
+				case "Taucher":
+					leckerbissenListe.add(new Taucher(name, gewicht));
+					break;
+				case "Muell":
+					for (int i = 0; i < menge; i++) {
+						leckerbissenListe.add(new Muell());
+					}
+			}
+		} catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+		//	throw new ParceException();
 		}
 	}
 

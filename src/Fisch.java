@@ -37,7 +37,8 @@ public class Fisch implements Leckerbissen {
 		if(esstyp.akzeptiert(beute.getNahrungstyp())) {
 			if (this == beute) {
 				throw new SelbstGefressenException(name + " hat versucht sich selber zu fressen.");
-			} else if(beute.getGramm() == 0) {
+			} 
+			if(beute.getGramm() == 0) {
 				throw new LeckerbissenSchonTotException(beute.toString() + " ist schon tot.");
 			} else {
 				gewicht += beute.getGramm();
