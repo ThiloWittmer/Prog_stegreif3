@@ -7,12 +7,19 @@ public class Taucher implements Leckerbissen {
     private boolean lebendig;
     private final Nahrungstyp TYP = Nahrungstyp.FLEISCH; 
     private int gewicht;
+    private String name;
 
-    public Taucher(int gewicht){
+    public Taucher(String name, int gewicht){
+    	this.name = name;
         this.lebendig=true;
         this.gewicht= gewicht;
     }
 
+    @Override
+    public String getName() {
+    	return name;
+    }
+    
     @Override
     public int getGramm() {
     
@@ -43,7 +50,11 @@ public class Taucher implements Leckerbissen {
  
     @Override
 	public String toString() {
-		return "Taucher";
+		return name;
 	}
 
+    @Override
+	public void setGewicht(int gewicht) {
+		this.gewicht = gewicht;
+	}
 }

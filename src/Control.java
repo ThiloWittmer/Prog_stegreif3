@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import de.hsrm.mi.prog2.TextIO;
 
 public class Control {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws LeckerbissenSchonTotException, ExistiertNichtException {
 
 		List<String> akteurListe = null;
 		List<String> ablaufListe = null;
@@ -60,6 +61,8 @@ public class Control {
 		 */
 		for (String anweisung : ablaufListe) {
 			Fisch fisch = null;
+			Class<?> aktKlasse;
+			Leckerbissen leckerbissen;
 			anweisungen = anweisung.split(" ");
 			for (Fisch aktFisch : fischListe) {
 				if (aktFisch.getName().equals(anweisungen[0])) {
@@ -67,38 +70,41 @@ public class Control {
 					break;
 				}
 			}
-
-			switch (anweisungen[2]) {
-				case "Seetang":
-					searchnEatLeckerbissen(leckerbissenListe, fisch, Seetang.class, count);
-					break;
-				case "Muell":
-					searchnEatLeckerbissen(leckerbissenListe, fisch, Muell.class, count);
-					break;
-				case "Taucher":
-					searchnEatLeckerbissen(leckerbissenListe, fisch, Taucher.class, count);
-					break;
-				default:
-					boolean gefressen = false;
-					for (Fisch aktFisch : fischListe) {
-						if (aktFisch.getName().equals(anweisungen[2])) {
-							try {
-								fisch.fressen(aktFisch);
-								fischListe.remove(aktFisch);
-								count[0]++;
-							} catch (FalscherNahrungstypException e) {
-								e.printStackTrace();
-								count[1]++;
-							} catch (KeinenHungerException e) {
-								e.printStackTrace();
-								count[1]++;
-							}
-							gefressen = true;
+			
+			try {
+				if (fisch == null) {
+					throw new ExistiertNichtException(anweisungen[0] + " wurde schon gefressen oder existiert nicht.");
+				}
+				aktKlasse = select(anweisungen[2]);
+				try {
+					leckerbissen = search(fischListe, leckerbissenListe, aktKlasse, anweisungen[2]);
+					try {
+						fisch.fressen(leckerbissen);
+						if (leckerbissen.getClass() == Fisch.class) {
+							fischListe.remove(leckerbissen);
+						} else {
+							leckerbissenListe.remove(leckerbissen);
 						}
-						if(gefressen) break;
+						count[0]++;
+					} catch (FalscherNahrungstypException e) {
+						e.printStackTrace();
+						count[1]++;
+					} catch (KeinenHungerException e) {
+						e.printStackTrace();
+						count[1]++;
+					} catch (SelbstGefressenException e) {
+						e.printStackTrace();
+						count[1]++;
 					}
-					break;
+				} catch(ExistiertNichtException e) {
+					e.printStackTrace();
+				}
+			} catch(ExistiertNichtException e) {
+				e.printStackTrace();
 			}
+
+			
+						
 		}
 
 		System.out.println("Es wurde " + count[0] + " mal erfolgreich etwas gefressen.");
@@ -106,6 +112,20 @@ public class Control {
 		
 	}
 
+	
+	/***
+	 * Gibt die passende Klasse zurück
+	 * @param anweisung
+	 * @return
+	 */
+	private static Class<?> select(String anweisung) {
+		switch(anweisung) {
+			case "Seetang": return Seetang.class;
+			case "Muell": return Muell.class;
+			default: return Fisch.class;
+		}
+	}
+	
 	/***
 	 * Suche des jeweiligen Leckerbissens
 	 * 
@@ -113,25 +133,31 @@ public class Control {
 	 * @param fisch
 	 * @param klasse
 	 * @param count
+	 * @throws IOException 
+	 * @throws ExistiertNichtException 
 	 */
-	private static void searchnEatLeckerbissen(List<Leckerbissen> leckerbissenListe, Fisch fisch, Class<?> klasse, int[] count) {
-		boolean gefressen = false;
-		for (Leckerbissen aktLeckerbissen : leckerbissenListe) {
-			if (aktLeckerbissen.getClass() == klasse) {
-				try {
-					fisch.fressen(aktLeckerbissen);
-					leckerbissenListe.remove(aktLeckerbissen);
-					count[0]++;
-				} catch (FalscherNahrungstypException e) {
-					e.printStackTrace();
-					count[1]++;
-				} catch (KeinenHungerException e) {
-					e.printStackTrace();
-					count[1]++;
+	private static Leckerbissen search(List<Fisch> fischListe, List<Leckerbissen> leckerbissenListe, Class<?> klasse, String name) throws ExistiertNichtException {
+		if(klasse == Fisch.class) {
+			for (Fisch aktFisch : fischListe) {
+				if (aktFisch.getName().equals(name)) {
+					return aktFisch;
 				}
-				gefressen = true;
 			}
-			if (gefressen) break;
+			for (Leckerbissen aktLeckerbissen : leckerbissenListe) {
+				if (aktLeckerbissen.getClass() == Taucher.class) {
+					if ((aktLeckerbissen).getName().equals(name)) {
+						return aktLeckerbissen;
+					}
+				}
+			}
+			throw new ExistiertNichtException(name + " ist nicht im Meer zu finden.");
+		} else {
+			for (Leckerbissen aktLeckerbissen : leckerbissenListe) {
+				if(aktLeckerbissen.getClass() == klasse) {
+					return aktLeckerbissen;
+				}
+			}
+			throw new ExistiertNichtException(name + " ist nicht im Meer zu finden.");
 		}
 	}
 	
@@ -142,8 +168,17 @@ public class Control {
 	 * @param leckerbissenListe
 	 */
 	private static void erzeugeLeckerbissen(String[] akteurDaten, List<Leckerbissen> leckerbissenListe) {
-		int menge = Integer.parseInt(akteurDaten[2]);
-		int gewicht = Integer.parseInt(akteurDaten[3]);
+		String name = null;
+		int menge;
+		int gewicht = Integer.parseInt(akteurDaten[2]);
+		switch(akteurDaten[0]) {
+			case "Seetang", "Muell":
+				menge = Integer.parseInt(akteurDaten[1]);
+			break;
+			default:
+				menge = 0;
+				name = akteurDaten[1];
+		}
 		switch (akteurDaten[0]) {
 			case "Seetang":
 				for (int i = 0; i < menge; i++) {
@@ -151,9 +186,7 @@ public class Control {
 				}
 				break;
 			case "Taucher":
-				for (int i = 0; i < menge; i++) {
-					leckerbissenListe.add(new Taucher(gewicht));
-				}
+				leckerbissenListe.add(new Taucher(name, gewicht));
 				break;
 			case "Muell":
 				for (int i = 0; i < menge; i++) {

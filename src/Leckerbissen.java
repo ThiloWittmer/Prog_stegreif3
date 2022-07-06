@@ -1,7 +1,7 @@
 /*
- * Leckerbissen-Klasse
+ * Leckerbissen-Interface
  * 
- * in dieser Klasse wird Leckerbissen-Metoden abgelegt
+ * in diesem Interface werden die Methoden der Leckerbissen deklariert
  */
 public interface Leckerbissen {
 	public int getGramm();  	//Gewicht von Objekt zurückliefern
@@ -9,4 +9,6 @@ public interface Leckerbissen {
 	public boolean istLebendig();	//Abfrage ob Objekt noch da ist
 	public Nahrungstyp getNahrungstyp(); 	//Return Nahrungstyp vom Objekt
 	public String toString(); //Name von Objekt als String
+	public void setGewicht(int gewicht);
+	public String getName();
 }

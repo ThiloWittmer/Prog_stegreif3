@@ -1,7 +1,14 @@
+/Control.class
+/Esstyp.class
 /FalscherNahrungstypException.class
 /Fisch.class
 /FressException.class
 /KeinenHungerException.class
+/Leckerbissen.class
 /Muell.class
+/Nahrungstyp.class
 /Seetang.class
 /Taucher.class
+/SelbstGefressenException.class
+/LeckerbissenSchonTotException.class
+/ExistiertNichtException.class

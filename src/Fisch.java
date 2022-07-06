@@ -24,8 +24,10 @@ public class Fisch implements Leckerbissen {
 	 * @param beute
 	 * @throws FalscherNahrungstypException
 	 * @throws KeinenHungerException
+	 * @throws SelbstGefressenException 
+	 * @throws LeckerbissenSchonTotException 
 	 */
-	public void fressen(Leckerbissen beute) throws FalscherNahrungstypException, KeinenHungerException {
+	public void fressen(Leckerbissen beute) throws FalscherNahrungstypException, KeinenHungerException, SelbstGefressenException, LeckerbissenSchonTotException {
 		if(beute.getGramm() > (hunger - gewicht)) {
 			//Exception: satt
 			throw new KeinenHungerException(name + " hat nicht genug Hunger für " + beute.toString());
@@ -33,8 +35,15 @@ public class Fisch implements Leckerbissen {
 		
 		//beute wird gefressen
 		if(esstyp.akzeptiert(beute.getNahrungstyp())) {
-			gewicht += beute.getGramm();
-			System.out.println(name + " hat " + beute.toString() + " gefressen.");
+			if (this == beute) {
+				throw new SelbstGefressenException(name + " hat versucht sich selber zu fressen.");
+			} else if(beute.getGramm() == 0) {
+				throw new LeckerbissenSchonTotException(beute.toString() + " ist schon tot.");
+			} else {
+				gewicht += beute.getGramm();
+				System.out.println(name + " hat " + beute.toString() + " gefressen.");
+				beute.setGewicht(0);
+			}
 		} else {
 			//Exception: falscher Nahrungstyp
 			throw new FalscherNahrungstypException(name + " hat nicht den richtigen Nahrungstyp für " + beute.toString());
@@ -76,5 +85,10 @@ public class Fisch implements Leckerbissen {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public void setGewicht(int gewicht) {
+		this.gewicht = gewicht;
 	}
 }

@@ -31,4 +31,13 @@ public class Muell implements Leckerbissen{
 	public String toString() {
 		return "Muell";
 	}
+	
+	@Override
+	public void setGewicht(int gewicht) {
+	}
+	
+	@Override
+	public String getName() {
+		return null;
+	}
 }

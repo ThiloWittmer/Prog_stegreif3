@@ -1,8 +1,10 @@
-Nemo frisst Seetang
+Lee frisst Seetang
+Nemo frisst Nemo
 Nemo frisst Bruce
 Bruce frisst Muell
-Hammer frisst Bruc
+Hammer frisst Bruce
 Bruce frisst Kahn
+Bruce frisst Jack_Dawson
 Nemo frisst Lee
 Lee frisst Puff
 Kahn frisst Blubbel

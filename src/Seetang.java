@@ -48,4 +48,14 @@ public class Seetang implements Leckerbissen{
 	public String toString() {
 		return "Seetang";
 	}
+	
+	@Override
+	public void setGewicht(int gewicht) {
+		this.gewicht = gewicht;
+	}
+	
+	@Override
+	public String getName() {
+		return null;
+	}
 }
